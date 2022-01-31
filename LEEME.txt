@@ -35,7 +35,7 @@ Primer paso (sólo hay que hacerlo una vez)
     https://github.com/paco-dlsi/p2-template.git
 
 5. Crea un "Personal access token"
-  - Pincha en el usuario (arriba a la derecha), luego en "Settings", luego
+  - Pincha en el usuario , luego en "Settings", luego
    en "Developer settings" y en "Personal access tokens"
   - Crea un nuevo token
     + pon una nota indicando para qué es (prácticas Programación 2, p.ej.)
