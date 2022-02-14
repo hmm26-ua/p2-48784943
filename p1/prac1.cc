@@ -15,7 +15,7 @@ struct Core{
   int attack;
   int defense;
   int hp;
-}habilidades;
+}features;
 
 enum Breed{
   AXOLOTL,
@@ -45,25 +45,25 @@ int rollDice(){
 
 Hero createHero(){
     
-    Hero, hero;
+    Hero hero;
      
     int suma_habilidades;
     
+    do{
     cout<<"Enter hero name: "<< endl;
-        cin.getline(name, KNAME-1);
-        if(isalpha(name[0]))
-            else(isprint(name) = False);
-            else if(isprint(name) = True);
-            cout<<"ERROR: wrong name"<< endl;
-
-        cout<<"Enter attack/defense: "<< endl;
-        cin>> habilidades.attack >> habilidades.defense;
+    cin.getline(name, KNAME-1);
+    }
+    
+    
+    cout<<"Enter attack/defense: "<< endl;
+    cin>> hero.features.attack >> hero.features.defense;
         
-        suma_habilidades = habilidades.attack + habilidades.defense;
+    suma_habilidades = hero.features.attack + hero.features.defense;
         
-        if(suma_habilidades > 100){
-            cout<<"ERROR: wrong distribution"<< endl;
-        }
+    if(suma_habilidades > 100){
+    cout<<"ERROR: wrong distribution"<< endl;
+    }
+    
     
     return hero;
 }
@@ -87,14 +87,14 @@ void showMenu(){
        << "4- Report" << endl
        << "q- Quit" << endl
        << "Option: ";
-       cin >> option;
+       /*cin >> option;
        switch(option){
            case 1:
            case 2:
            case 3:
            case 4:
        }
-       
+       */
 }
 
 int main(int argc,char *argv[]){
