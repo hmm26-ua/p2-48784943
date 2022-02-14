@@ -1,6 +1,5 @@
 // Programación 2 - Práctica 1
-// DNI: 48784943B
-// Nombre: HECTOR MORAL MORALES
+// DNI: 48784943B MORAL MORALES, HECTOR
 
 #include <iostream>
 #include <cstdlib> // Para rand(), srand() y atoi()
@@ -16,7 +15,7 @@ struct Core{
   int attack;
   int defense;
   int hp;
-};
+}habilidades;
 
 enum Breed{
   AXOLOTL,
@@ -24,12 +23,12 @@ enum Breed{
   ORC,
   HELLHOUND,
   DRAGON
-};
+}monstruos;
 
 struct Enemy{
   Breed name;
   Core features;
-};
+}enemy;
 
 struct Hero{
   char name[KNAME];
@@ -38,23 +37,34 @@ struct Hero{
   int runaways;
   int exp;
   int kills[KENEMIES];
-};
+}hero;
 
 int rollDice(){
   return rand()%KDICE+1;
 }
 
 Hero createHero(){
+    
     Hero, hero;
-    do{
-        cout<<"Introduce el nombre de tu heroe o heroina: "<< endl;
-        cin.getline(name, KNAME-1);¨
-        if(iswalpha(name[0]))
-            else(iswprint(name) = False);
-            else if(iswprint(name) = True);
-            cout<<"Error"<< endl;
-    }
+     
+    int suma_habilidades;
+    
+    cout<<"Enter hero name: "<< endl;
+        cin.getline(name, KNAME-1);
+        if(isalpha(name[0]))
+            else(isprint(name) = False);
+            else if(isprint(name) = True);
+            cout<<"ERROR: wrong name"<< endl;
 
+        cout<<"Enter attack/defense: "<< endl;
+        cin>> habilidades.attack >> habilidades.defense;
+        
+        suma_habilidades = habilidades.attack + habilidades.defense;
+        
+        if(suma_habilidades > 100){
+            cout<<"ERROR: wrong distribution"<< endl;
+        }
+    
     return hero;
 }
 
@@ -68,13 +78,23 @@ void report(const Hero &hero){
 }
 
 void showMenu(){
-  cout << "[Options]" << endl
+  
+    char option;
+    cout << "[Options]" << endl
        << "1- Fight" << endl
        << "2- Run away" << endl
        << "3- Special" << endl 
        << "4- Report" << endl
        << "q- Quit" << endl
        << "Option: ";
+       cin >> option;
+       switch(option){
+           case 1:
+           case 2:
+           case 3:
+           case 4:
+       }
+       
 }
 
 int main(int argc,char *argv[]){
