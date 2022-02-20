@@ -3,7 +3,8 @@
 
 #include <iostream>
 #include <cstdlib> // Para rand(), srand() y atoi()
-
+#include <ctype.h>
+#include <cstring>
 using namespace std;
 
 const int KNAME=32;
@@ -43,20 +44,40 @@ int rollDice(){
   return rand()%KDICE+1;
 }
 
-Hero createHero(){
+
+
+Hero createHero(char name[]){
     
     Hero hero;
-     
-    int suma_habilidades;
+    bool resultado;
+    int i;
     
-    do{
-    cout<<"Enter hero name: "<< endl;
-    cin.getline(name, KNAME-1);
+    
+    cout<<"Introduce el nombre de tu heroe: ";
+    cin.getline(hero.name, KNAME-1, '\n');
+    
+    int longitud;
+    longitud=strlen(hero.name);
+    
+    if(longitud > KNAME){
+        resultado = false;
+    }
+    
+    if(isalpha(name[0])==0)
+        resultado = false;
+     for(i=0;i<32;i++){
+         if(!isalpha(name[i]) && !isdigit(name[i]) && !isblank(name[i]))
+         resultado = false;
+}
+    if(resultado == false){
+    cout<<"Error: wrong name"<<endl;
     }
     
     
+    int suma_habilidades;
+    char c;
     cout<<"Enter attack/defense: "<< endl;
-    cin>> hero.features.attack >> hero.features.defense;
+    cin>> hero.features.attack >> c >> hero.features.defense;
         
     suma_habilidades = hero.features.attack + hero.features.defense;
         
@@ -77,9 +98,9 @@ void fight(Hero &hero,Enemy &enemy){
 void report(const Hero &hero){
 }
 
+ 
 void showMenu(){
   
-    char option;
     cout << "[Options]" << endl
        << "1- Fight" << endl
        << "2- Run away" << endl
@@ -87,18 +108,12 @@ void showMenu(){
        << "4- Report" << endl
        << "q- Quit" << endl
        << "Option: ";
-       /*cin >> option;
-       switch(option){
-           case 1:
-           case 2:
-           case 3:
-           case 4:
-       }
-       */
+      // cin >> option;
 }
 
 int main(int argc,char *argv[]){
-  if(argc!=2){ // Si los parámetros no son correctos, el programa termina inmediatamente
+    
+    if(argc!=2){ // Si los parámetros no son correctos, el programa termina inmediatamente
     cout << "Usage: " << argv[0] << " <seed>" << endl;
   }
   else{
@@ -106,6 +121,24 @@ int main(int argc,char *argv[]){
     
     // Aquí vendrá todo tu código del "main"...
   }
+  
+  
+  /*do{
+        showMenu();
+        switch(option){
+           case '1':
+           case '2':
+           case '3':
+           case '4':
+           case 'q': break;
+       }
+    }while(option != 'q');*/
+  
+  char option;
+   char name[KNAME];
+    Hero hero = createHero(name);
+    Enemy enemy = createEnemy();
+   
 }
 
 
