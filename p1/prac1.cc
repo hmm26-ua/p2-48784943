@@ -44,52 +44,43 @@ int rollDice(){
   return rand()%KDICE+1;
 }
 
-
-
-Hero createHero(char name[]){
+Hero createHero(){
     
     Hero hero;
-    bool resultado;
-    int i;
-    
-    
-    cout<<"Introduce el nombre de tu heroe: ";
-    cin.getline(hero.name, KNAME-1, '\n');
-    
-    int longitud;
-    longitud=strlen(hero.name);
-    
-    if(longitud > KNAME){
-        resultado = false;
-    }
-    
-    if(isalpha(name[0])==0)
-        resultado = false;
-     for(i=0;i<32;i++){
-         if(!isalpha(name[i]) && !isdigit(name[i]) && !isblank(name[i]))
-         resultado = false;
-}
-    if(resultado == false){
-    cout<<"Error: wrong name"<<endl;
-    }
-    
-    
-    int suma_habilidades;
-    char c;
-    cout<<"Enter attack/defense: "<< endl;
-    cin>> hero.features.attack >> c >> hero.features.defense;
+    int j=0;
+
+    do{
+      cout<<"Enter hero name: ";
+      cin.getline(hero.name, KNAME-1, '\n');
+      
+      
+      if(strlen(hero.name)==0){
+        j=1;
+      }
+       else if(isalpha(hero.name[0])==0){
+        j=1;
+      }else{
+            for(int i = 0; i<strlen(hero.name); i++){
+              if(isalpha(hero.name[i])==0 && isspace(hero.name[i])==0 && isalnum(hero.name[i])==0){
+                j=1;
+              }else{
+                j=0;
+              }
+        }
+      }
+      if(j==1){
+        cout<<"Error: wrong name"<<endl;
+      }
         
-    suma_habilidades = hero.features.attack + hero.features.defense;
-        
-    if(suma_habilidades > 100){
-    cout<<"ERROR: wrong distribution"<< endl;
-    }
-    
-    
-    return hero;
+    }while(j==1);
 }
 
 Enemy createEnemy(){
+    
+//     rollDice();
+//     if(rollDice==(1 || 2 || 3 || 4 || 5 || 6))
+//         Breed = AXOLOTL;
+    
 }
 
 void fight(Hero &hero,Enemy &enemy){
@@ -108,11 +99,13 @@ void showMenu(){
        << "4- Report" << endl
        << "q- Quit" << endl
        << "Option: ";
-      // cin >> option;
+      
 }
 
 int main(int argc,char *argv[]){
     
+    bool nombrevalido;
+     char name;
     if(argc!=2){ // Si los parámetros no son correctos, el programa termina inmediatamente
     cout << "Usage: " << argv[0] << " <seed>" << endl;
   }
@@ -121,10 +114,29 @@ int main(int argc,char *argv[]){
     
     // Aquí vendrá todo tu código del "main"...
   }
+  char option;
+  int suma_habilidades;
+  char c;
+
+    Hero hero = createHero();
+
+    do{
+      cout<<"Enter attack/defense: ";
+      cin>>hero.features.attack>>c>>hero.features.defense;
+    
+      suma_habilidades = hero.features.attack + hero.features.defense;
+      
+
+      if(suma_habilidades > 100){
+        cout<<"Error: wrong distribution"<<endl;
+      }else if(suma_habilidades < 100){
+        cout<<"Error: wrong distribution"<<endl;
+      }
+    }while(suma_habilidades > 100 && suma_habilidades < 100);
   
-  
-  /*do{
+    do{
         showMenu();
+        cin >> option;
         switch(option){
            case '1':
            case '2':
@@ -132,11 +144,13 @@ int main(int argc,char *argv[]){
            case '4':
            case 'q': break;
        }
-    }while(option != 'q');*/
+    }while(option != 'q');
   
-  char option;
-   char name[KNAME];
-    Hero hero = createHero(name);
+  
+ 
+    
+    
+    
     Enemy enemy = createEnemy();
    
 }
