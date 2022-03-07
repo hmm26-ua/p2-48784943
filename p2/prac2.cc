@@ -97,10 +97,10 @@ void showCatalog(const BookStore &bookStore) {
   
   Book book;
   int i;
-  int cantidad_libros;
+  int cantidad_libros = bookStore.books.size();
 
-  for(i = 0; i<bookStore.books.size(); i++){
-    cout<<i<<". "<<bookStore.books[i].title<<endl;
+  for(i = 0; i<cantidad_libros; i++){
+    cout<<bookStore.books[i].id<<". "<<bookStore.books[i].title<<"("<<bookStore.books[i].year<<")"<<","<<bookStore.books[i].year<<endl;
   }
   
 }
@@ -116,60 +116,74 @@ void showExtendedCatalog(const BookStore &bookStore) {
 
 }
 
-void addBook(BookStore &bookStore) {
-  Book book;
-  int i;
-  int j;
-  int longitud_titulo = book.title.size();
-  int longitud_autor = book.authors.size();
+void comprobar_titulo(Book &book){
+ 
+int i; 
+int j; 
 
 do{
 
-  cout<<"Enter book title: ";
+cout<<"Enter book title: ";
   getline(cin, book.title);
 
+  int longitud_titulo;
+  longitud_titulo = book.title.size();
+
   for(i = 0; i<longitud_titulo; i++){
-      if(!(isalnum(book.title[i]) || (book.title[i] = ' ') || (book.title[i] = ':') || (book.title[i] = ',') || (book.title[i] = '-'))){
+      if(!(isalnum(book.title[i]) || (book.title[i] == ' ') || (book.title[i] == ':') || (book.title[i] == ',') || (book.title[i] == '-'))){
         j = 1;
-        error(ERR_BOOK_TITLE);
       }else{
         j=0;
       }
   }
 
+  if(j==1){
+        error(ERR_BOOK_TITLE);
+  }
+
 }while(j==1);
+
+}
+
+void comprobar_autor(Book &book){
+  
+
+int i;
+int j;
 
 do{
     
   cout<<"Enter author(s): ";
   getline(cin, book.authors);
 
+  int longitud_autor;
+  longitud_autor = book.authors.size();
+
   for(i = 0; i<longitud_autor; i++){
-      if(!(isalnum(book.authors[i]) || (book.authors[i] = ' ') || (book.authors[i] = ':') || (book.authors[i] = ',') || (book.authors[i] = '-'))){
+      if(!(isalnum(book.authors[i]) || (book.authors[i] == ' ') || (book.authors[i] == ':') || (book.authors[i] == ',') || (book.authors[i] == '-'))){
         j = 1;
-        error(ERR_BOOK_AUTHORS);
       }else{
         j = 0;
       }
   }
 
-}while(j==1);
-
-do{
-
-  cout<<"Enter publication year: ";
-  getline(cin, book.year);
-
-  if(book.year < 1440 && book.year > 2022 && book.year.size() == 0 ){
-    j= 1;
-    error(ERR_BOOK_DATE);
+  if(j==1){
+    error(ERR_BOOK_AUTHORS);
   }
 
-
 }while(j==1);
 
+}
 
-  bookStore.books.push_back(book);
+void addBook(BookStore &bookStore) {
+Book book;
+
+comprobar_titulo(book);
+comprobar_autor(book);
+
+
+bookStore.books.push_back(book);
+
 }
 
 void deleteBook(BookStore &bookStore) {
