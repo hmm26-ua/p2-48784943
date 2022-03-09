@@ -96,22 +96,23 @@ void showMainMenu() {
 void showCatalog(const BookStore &bookStore) {
   
   Book book;
-  int i;
+  int id = book.id;
   int cantidad_libros = bookStore.books.size();
 
-  for(i = 0; i<cantidad_libros; i++){
-    cout<<bookStore.books[i].id<<". "<<bookStore.books[i].title<<"("<<bookStore.books[i].year<<")"<<","<<bookStore.books[i].year<<endl;
+  for(id = 1; id<cantidad_libros; id++){
+    cout<<id<<". "<<bookStore.books[id].title<<"("<<bookStore.books[id].year<<")"<<","<<bookStore.books[id].price<<endl;
   }
   
 }
 
 void showExtendedCatalog(const BookStore &bookStore) {
+  
   Book book;
   int i;
   int cantidad_libros = bookStore.books.size();
 
   for(i=0; i<cantidad_libros; i++){
-    cout<<'"'<<book.title[i]<<'"'<<","<<'"'<<book.authors[i]<<'"'<<","<<'"'<<book.year<<'"'<<","<<'"'<<book.slug<<'"'<<","<<book.price<<endl;
+    cout<<'"'<<bookStore.books[i].title<<'"'<<","<<'"'<<bookStore.books[i].authors<<'"'<<","<<'"'<<bookStore.books[i].year<<'"'<<","<<'"'<<bookStore.books[i].slug<<'"'<<","<<bookStore.books[i].price<<endl;
   }
 
 }
@@ -128,6 +129,10 @@ cout<<"Enter book title: ";
 
   int longitud_titulo;
   longitud_titulo = book.title.size();
+
+  if(longitud_titulo == 0){
+    j=1;
+  }
 
   for(i = 0; i<longitud_titulo; i++){
       if(!(isalnum(book.title[i]) || (book.title[i] == ' ') || (book.title[i] == ':') || (book.title[i] == ',') || (book.title[i] == '-'))){
@@ -147,7 +152,6 @@ cout<<"Enter book title: ";
 
 void comprobar_autor(Book &book){
   
-
 int i;
 int j;
 
@@ -158,6 +162,10 @@ do{
 
   int longitud_autor;
   longitud_autor = book.authors.size();
+
+  if(longitud_autor == 0){
+    j=1;
+  }
 
   for(i = 0; i<longitud_autor; i++){
       if(!(isalnum(book.authors[i]) || (book.authors[i] == ' ') || (book.authors[i] == ':') || (book.authors[i] == ',') || (book.authors[i] == '-'))){
@@ -175,12 +183,58 @@ do{
 
 }
 
+void comprobar_anyo(Book &book){
+
+  int j;
+  int year = book.year;
+  do{
+
+    cout<<"Enter publciation year: ";
+    cin >> year;
+  
+    if(year>2022 || year<1440){
+      j=1;
+    }else{
+      j=0;
+    }
+
+    if(j==1){
+      error(ERR_BOOK_DATE);
+    }
+
+  }while(j==1);
+  
+}
+
+void precio_libro(Book &book){
+
+  int j;
+  float price = book.price;
+  do{
+    cout<<"Enter price: ";
+    cin>>price;
+
+    if(price<0){
+      j=1;
+    }else{
+      j=0;
+    }
+
+    if(j==1){
+      error(ERR_BOOK_PRICE);
+    }
+  }while(j==1);
+  
+}
+
 void addBook(BookStore &bookStore) {
+
 Book book;
 
 comprobar_titulo(book);
 comprobar_autor(book);
-
+comprobar_anyo(book);
+precio_libro(book);
 
 bookStore.books.push_back(book);
 
