@@ -96,11 +96,11 @@ void showMainMenu() {
 void showCatalog(const BookStore &bookStore) {
   
   Book book;
-  int id = book.id;
+  
   int cantidad_libros = bookStore.books.size();
 
-  for(id = 1; id<cantidad_libros; id++){
-    cout<<id<<". "<<bookStore.books[id].title<<"("<<bookStore.books[id].year<<")"<<","<<bookStore.books[id].price<<endl;
+  for(int id = 0; id<cantidad_libros; id++){
+    cout<<id+1<<". "<<bookStore.books[id].title<<"("<<bookStore.books[id].year<<")"<<","<<bookStore.books[id].price<<endl;
   }
   
 }
@@ -120,7 +120,7 @@ void showExtendedCatalog(const BookStore &bookStore) {
 void comprobar_titulo(Book &book){
  
 int i; 
-int j; 
+int j;
 
 do{
 
@@ -186,13 +186,13 @@ do{
 void comprobar_anyo(Book &book){
 
   int j;
-  int year = book.year;
+  
   do{
 
     cout<<"Enter publciation year: ";
-    cin >> year;
+    cin >> book.year;
   
-    if(year>2022 || year<1440){
+    if(book.year>2022 || book.year<1440){
       j=1;
     }else{
       j=0;
@@ -209,12 +209,12 @@ void comprobar_anyo(Book &book){
 void precio_libro(Book &book){
 
   int j;
-  float price = book.price;
+
   do{
     cout<<"Enter price: ";
-    cin>>price;
+    cin>>book.price;
 
-    if(price<0){
+    if(book.price<0){
       j=1;
     }else{
       j=0;
@@ -227,7 +227,7 @@ void precio_libro(Book &book){
   
 }
 
-void addBook(BookStore &bookStore) {
+void addBook(BookStore &bookStore){
 
 Book book;
 
@@ -240,10 +240,10 @@ bookStore.books.push_back(book);
 
 }
 
-void deleteBook(BookStore &bookStore) {
+void deleteBook(BookStore &bookStore){
 }
 
-void importExportMenu(BookStore &bookStore) {
+void importExportMenu(BookStore &bookStore){
 }
 
 void importFromCsv(BookStore &bookStore){
@@ -258,7 +258,7 @@ void loadData(BookStore &bookStore){
 void saveData(const BookStore &bookStore){
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]){
   BookStore bookStore;
   bookStore.name = "My Book Store";
   bookStore.nextId = 1;
