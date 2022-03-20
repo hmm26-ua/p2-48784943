@@ -98,8 +98,9 @@ void showCatalog(const BookStore &bookStore) {
   Book book;
   
   int cantidad_libros = bookStore.books.size();
+  int id = book.id;
 
-  for(int id = 0; id<cantidad_libros; id++){
+  for(id = 0; id<cantidad_libros; id++){
     cout<<id+1<<". "<<bookStore.books[id].title<<"("<<bookStore.books[id].year<<")"<<","<<bookStore.books[id].price<<endl;
   }
   
@@ -183,48 +184,63 @@ do{
 
 }
 
-void comprobar_anyo(Book &book){
+bool isValidYear(int year) {
+  if (year > 2022 || year < 1440){
+    return false;
+  }
+  else
+  {
+    return true;
+  }
+}
 
-  int j;
+void comprobar_anyo(Book &book){
   
-  do{
+  string year_text = "";
+  book.year = 0;
+
+  while(!isValidYear(book.year)){ 
 
     cout<<"Enter publciation year: ";
-    cin >> book.year;
-  
-    if(book.year>2022 || book.year<1440){
-      j=1;
-    }else{
-      j=0;
-    }
+    getline(cin, year_text);
 
-    if(j==1){
+    if (year_text.length() > 0){
+      book.year = stoi(year_text);
+    }
+  
+    if(!isValidYear(book.year)){
       error(ERR_BOOK_DATE);
     }
+  }
+}
 
-  }while(j==1);
-  
+bool isValidPrice(int price){
+
+  if(book.price<0){
+      return false;
+    }else{
+      return true;
+    }
+
 }
 
 void precio_libro(Book &book){
+  
+  string precio_book= "";
+  book.price = 0;
 
-  int j;
+  while(!isValidPrice(book.price)){ 
+    cout<<"Enter book price: ";
+    getline(cin, precio_book);
 
-  do{
-    cout<<"Enter price: ";
-    cin>>book.price;
-
-    if(book.price<0){
-      j=1;
-    }else{
-      j=0;
+    if (precio_book.length() > 0) {
+      book.price = stof(precio_book);
     }
-
-    if(j==1){
+  
+    if(!isValidPrice(book.price)) {
       error(ERR_BOOK_PRICE);
     }
-  }while(j==1);
-  
+  } 
 }
 
 void addBook(BookStore &bookStore){
@@ -241,6 +257,14 @@ bookStore.books.push_back(book);
 }
 
 void deleteBook(BookStore &bookStore){
+  
+  Book book;
+
+  int contador=0;
+
+  cout<<"Enter book id";
+  
+
 }
 
 void importExportMenu(BookStore &bookStore){
@@ -294,3 +318,4 @@ int main(int argc, char *argv[]){
 
   return 0;
 }
+ 
