@@ -230,7 +230,7 @@ void precio_libro(Book &book){
   book.price = 0;
 
   while(!isValidPrice(book.price)){ 
-    cout<<"Enter book price: ";
+    cout<<"Enter price: ";
     getline(cin, precio_book);
 
     if (precio_book.length() > 0) {
@@ -241,6 +241,10 @@ void precio_libro(Book &book){
       error(ERR_BOOK_PRICE);
     }
   } 
+}
+
+void slug_titulo(Book &book){
+
 }
 
 void addBook(BookStore &bookStore){
@@ -267,9 +271,6 @@ void deleteBook(BookStore &bookStore){
 
 }
 
-void importExportMenu(BookStore &bookStore){
-}
-
 void importFromCsv(BookStore &bookStore){
 }
 
@@ -280,6 +281,50 @@ void loadData(BookStore &bookStore){
 }
 
 void saveData(const BookStore &bookStore){
+}
+
+void menu_import_export(){
+
+  cout << "[Import/export options]" << endl
+       << "1- Import from CSV" << endl
+       << "2- Export to CSV" << endl
+       << "3- Load data" << endl
+       << "4- Save data" << endl
+       << "b- Back to main menu" << endl
+       << "Option: ";
+
+}
+
+void importExportMenu(BookStore &bookStore){
+  
+  char option;
+  
+  do {
+    menu_import_export();
+    cin >> option;
+    cin.get();
+
+    switch (option) {
+      case '1':
+        importFromCsv(bookStore);
+        break;
+      case '2':
+        exportToCsv(bookStore);
+        break;
+      case '3':
+        loadData(bookStore);
+        break;
+      case '4':
+        saveData(bookStore);
+        break;
+      case 'b':
+        break;
+      default:
+        error(ERR_OPTION);
+    }
+  } while (option != 'b');
+
+
 }
 
 int main(int argc, char *argv[]){
