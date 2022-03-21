@@ -214,9 +214,9 @@ void comprobar_anyo(Book &book){
   }
 }
 
-bool isValidPrice(int price){
+bool isValidPrice(float price){
 
-  if(book.price<0){
+  if(price<=0){
       return false;
     }else{
       return true;
