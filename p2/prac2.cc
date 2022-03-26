@@ -8,6 +8,7 @@
 #include <string>
 #include <cstdlib> // Para rand(), srand() y atoi()
 #include <ctype.h>
+#include <cctype>
 
 using namespace std;
 
@@ -113,7 +114,7 @@ void showExtendedCatalog(const BookStore &bookStore) {
   int cantidad_libros = bookStore.books.size();
 
   for(i=0; i<cantidad_libros; i++){
-    cout<<'"'<<bookStore.books[i].title<<'"'<<","<<'"'<<bookStore.books[i].authors<<'"'<<","<<'"'<<bookStore.books[i].year<<'"'<<","<<'"'<<bookStore.books[i].slug<<'"'<<","<<bookStore.books[i].price<<endl;
+    cout<<'"'<<bookStore.books[i].title<<'"'<<","<<'"'<<bookStore.books[i].authors<<'"'<<","<<bookStore.books[i].year<<","<<'"'<<bookStore.books[i].slug<<'"'<<","<<bookStore.books[i].price<<endl;
   }
 
 }
@@ -245,6 +246,14 @@ void precio_libro(Book &book){
 
 void slug_titulo(Book &book){
 
+  int titulo_libro = book.title.length();
+  book.slug = book.title;
+
+  for(int i =0; i<titulo_libro; i++){
+    if(book.title[i] == ' ' || !isalnum(book.title[i]) || !isalpha(book.title[i])){
+      
+    }
+  }
 }
 
 void addBook(BookStore &bookStore){
@@ -263,11 +272,20 @@ bookStore.books.push_back(book);
 void deleteBook(BookStore &bookStore){
   
   Book book;
-
-  int contador=0;
-
-  cout<<"Enter book id";
   
+  int id_books = bookStore.books.id;
+  int contador;
+  int books_size = bookStore.books.size();
+
+  cout<<"Enter book id: ";
+  cin>> contador;
+
+  for(int i = 0; i<books_size; i++){
+    if(contador == id_books){
+      bookStore.books.erase(bookStore.books.begin()+(i));
+      cout<<"holaaaa";
+    }
+  }
 
 }
 
@@ -323,8 +341,6 @@ void importExportMenu(BookStore &bookStore){
         error(ERR_OPTION);
     }
   } while (option != 'b');
-
-
 }
 
 int main(int argc, char *argv[]){
@@ -363,4 +379,3 @@ int main(int argc, char *argv[]){
 
   return 0;
 }
- 
