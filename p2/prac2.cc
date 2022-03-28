@@ -34,6 +34,12 @@ struct Book {
   float price;
 }book;
 
+struct BookStore{ 
+  string name;
+  vector<Book> books;
+  unsigned int nextId;
+};
+
 struct BinBook {
   unsigned int id;
   char title[KMAXSTRING];
@@ -41,12 +47,6 @@ struct BinBook {
   int year;
   char slug[KMAXSTRING];
   float price;
-};
-
-struct BookStore{ 
-  string name;
-  vector<Book> books;
-  unsigned int nextId;
 };
 
 struct BinBookStore {
@@ -244,7 +244,7 @@ void precio_libro(Book &book){
   } 
 }
 
-void slug_minusculas(Book &book){
+void slug(Book &book){
 
   book.slug = book.title;
 
@@ -270,8 +270,11 @@ void slug_minusculas(Book &book){
    if(book.slug[0] == '-'){
       book.slug.erase(book.slug.begin());
    }
-
    
+   longitud = book.slug.length();
+   if(book.slug[longitud-1]=='-'){
+     book.slug.erase(longitud-1, 1);
+   }
 
 }
 
@@ -285,7 +288,7 @@ comprobar_titulo(book);
 comprobar_autor(book);
 comprobar_anyo(book);
 precio_libro(book);
-slug_minusculas(book);
+slug(book);
 
 bookStore.books.push_back(book);
 
@@ -329,6 +332,10 @@ void deleteBook(BookStore &bookStore){
 }
 
 void importFromCsv(BookStore &bookStore){
+
+  cout<<"Enter filename: "
+
+
 }
 
 void exportToCsv(const BookStore &bookStore){
