@@ -27,7 +27,7 @@ enum Error {
 
 struct Book {
   unsigned int id;
-  string title;
+  string title;                            
   string authors;
   int year;
   string slug;
@@ -43,7 +43,7 @@ struct BinBook {
   float price;
 };
 
-struct BookStore {
+struct BookStore{ 
   string name;
   vector<Book> books;
   unsigned int nextId;
@@ -99,10 +99,10 @@ void showCatalog(const BookStore &bookStore) {
   Book book;
   
   int cantidad_libros = bookStore.books.size();
-  int id = book.id;
+  int i;
 
-  for(id = 0; id<cantidad_libros; id++){
-    cout<<id+1<<". "<<bookStore.books[id].title<<"("<<bookStore.books[id].year<<")"<<","<<bookStore.books[id].price<<endl;
+  for(i = 0; i<cantidad_libros; i++){
+    cout<<bookStore.books[i].id<<". "<<bookStore.books[i].title<<" ("<<bookStore.books[i].year<<")"<<", "<<bookStore.books[i].price<<endl;
   }
   
 }
@@ -120,7 +120,7 @@ void showExtendedCatalog(const BookStore &bookStore) {
 }
 
 void comprobar_titulo(Book &book){
- 
+
 int i; 
 int j;
 
@@ -244,49 +244,88 @@ void precio_libro(Book &book){
   } 
 }
 
-void slug_titulo(Book &book){
+void slug_minusculas(Book &book){
 
-  int titulo_libro = book.title.length();
   book.slug = book.title;
 
-  for(int i =0; i<titulo_libro; i++){
-    if(book.title[i] == ' ' || !isalnum(book.title[i]) || !isalpha(book.title[i])){
-      
+  int longitud = book.slug.length();
+  int i;
+
+  for(i=0; i<longitud; i++){
+    book.slug[i] = tolower(book.slug [i]);
+
+    if(!isalnum(book.slug [i]) && !isalpha(book.slug [i])){
+      book.slug [i]= '-';
     }
   }
+  
+  for(i=0; i<longitud; i++){
+    if(book.slug[i]=='-' && book.slug[i+1]=='-'){
+      book.slug.erase(book.slug.begin()+(i));
+      i--;
+      longitud = book.slug.length();
+    } 
+  }
+
+   if(book.slug[0] == '-'){
+      book.slug.erase(book.slug.begin());
+   }
+
+   
+
 }
+
 
 void addBook(BookStore &bookStore){
 
 Book book;
-
+book.id = bookStore.nextId;
+bookStore.nextId++;
 comprobar_titulo(book);
 comprobar_autor(book);
 comprobar_anyo(book);
 precio_libro(book);
+slug_minusculas(book);
 
 bookStore.books.push_back(book);
 
+}
+
+int longitud_delete(const vector<Book> &books, unsigned int id){
+
+  int pos_libro;
+  int tamanyo_libros = books.size();
+  pos_libro = -1;
+
+  for(int i=0; i<tamanyo_libros && pos_libro == -1; i++){
+    if(books[i].id == id){
+      pos_libro = i;
+    }
+  }
+  return pos_libro;
 }
 
 void deleteBook(BookStore &bookStore){
   
   Book book;
   
-  int id_books = bookStore.books.id;
-  int contador;
-  int books_size = bookStore.books.size();
+  int pos_libro, id;
+  string book_id;
 
   cout<<"Enter book id: ";
-  cin>> contador;
+  getline(cin, book_id);
 
-  for(int i = 0; i<books_size; i++){
-    if(contador == id_books){
-      bookStore.books.erase(bookStore.books.begin()+(i));
-      cout<<"holaaaa";
+  if(book_id.length() == 0){
+    error(ERR_ID);
+  }else{
+    id = stoi(book_id);
+    pos_libro = longitud_delete(bookStore.books, id);
+    if(pos_libro == -1){
+      error(ERR_ID);
+    }else{
+      bookStore.books.erase(bookStore.books.begin() + pos_libro);
     }
   }
-
 }
 
 void importFromCsv(BookStore &bookStore){
