@@ -9,6 +9,7 @@
 #include <cstdlib> // Para rand(), srand() y atoi()
 #include <ctype.h>
 #include <cctype>
+#include <fstream>
 
 using namespace std;
 
@@ -244,7 +245,7 @@ void precio_libro(Book &book){
   } 
 }
 
-void slug(Book &book){
+void create_slug(Book &book){
 
   book.slug = book.title;
 
@@ -275,23 +276,23 @@ void slug(Book &book){
    if(book.slug[longitud-1]=='-'){
      book.slug.erase(longitud-1, 1);
    }
-
 }
 
 
 void addBook(BookStore &bookStore){
 
 Book book;
+
 book.id = bookStore.nextId;
 bookStore.nextId++;
+
 comprobar_titulo(book);
 comprobar_autor(book);
 comprobar_anyo(book);
 precio_libro(book);
-slug(book);
+create_slug(book);
 
 bookStore.books.push_back(book);
-
 }
 
 int longitud_delete(const vector<Book> &books, unsigned int id){
@@ -333,14 +334,63 @@ void deleteBook(BookStore &bookStore){
 
 void importFromCsv(BookStore &bookStore){
 
-  cout<<"Enter filename: "
+ifstream archivo;
+string nombre_fichero;
 
+cout<<"Enter file name: ";
+getline(cin, nombre_fichero);
 
+archivo.open(nombre_fichero, ios::in);
+
+if(archivo.is_open()){
+ string contenido_fichero;
+ while(getline(archivo, contenido_fichero)){
+   
+   string titulo;
+   int i=0;
+   bool bien=true;
+   int longitud_fichero = contenido_fichero.length();
+   int cantidad_libros = bookStore.books.size();
+   bookStore.books.push_back(book);
+
+   for(i=1; i<longitud_fichero; i++){
+     if(contenido_fichero[i]==','){
+       bien=false;
+     }else if(contenido_fichero[i]!='"'){
+       titulo+=contenido_fichero[i];
+     }
+   }
+   archivo.close();
+   bookStore.books[cantidad_libros].title = titulo;
+   cout<<bookStore.books[cantidad_libros].title<<endl;
+   }
+ }else{
+  error(ERR_FILE);
+} 
 }
 
 void exportToCsv(const BookStore &bookStore){
-}
+  
+  ofstream archivo;
+  string nombre_fichero;
+  int tamanyo = bookStore.books.size();
+  
+  cout<<"Enter filename: ";
+  getline(cin, nombre_fichero);
 
+  archivo.open(nombre_fichero.c_str(), ios::out);
+    
+    if(archivo.is_open()) {
+      
+      for(int i=0; i<tamanyo; i++){
+        archivo<<'"'<<bookStore.books[i].title<<'"'<<","<<'"'<<bookStore.books[i].authors<<'"'<<","<<bookStore.books[i].year<<","<<'"'<<bookStore.books[i].slug<<'"'<<","<<bookStore.books[i].price<<endl;
+      }
+      archivo.close();
+      }else{
+        error(ERR_FILE);
+      }
+} 
+  
 void loadData(BookStore &bookStore){
 }
 
@@ -424,4 +474,6 @@ int main(int argc, char *argv[]){
   } while (option != 'q');
 
   return 0;
+
 }
+
